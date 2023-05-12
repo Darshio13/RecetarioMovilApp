@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    >
+
+    <item
+        android:title="🍳"
+        android:id="@+id/RecipesDone"
+        app:showAsAction="ifRoom"
+        >
+
+    </item>
+    <item android:title="🔔"
+        android:id="@+id/Notis"
+         app:showAsAction="ifRoom"
+        >
+
+    </item>
+
+    <item android:title="Subir de nivel"
+        android:id="@+id/Snivel"
+        app:showAsAction="ifRoom"
+        >
+
+    </item>
+
+    <item android:title="Siguiente nivel"
+        android:id="@+id/Nextnivel"
+        app:showAsAction="ifRoom"
+        >
+
+    </item>
+
+
+    <item android:title="Aprende Skills"
+        android:id="@+id/ApSkills"
+        app:showAsAction="ifRoom"
+        >
+
+    </item>
+
+    <item android:title="Cerrar sesion"
+        android:icon="@drawable/ic_action_logout"
+        android:id="@+id/logout"
+        app:showAsAction="ifRoom"
+        >
+
+    </item>
+
+</menu>

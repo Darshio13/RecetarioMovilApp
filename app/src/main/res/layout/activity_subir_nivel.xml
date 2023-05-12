@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Subir de nivel"
+        android:layout_marginTop="20dp"
+        android:textSize="30sp"
+        android:textColor = "?android:textColorPrimary"
+
+        >
+    </TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nivel"
+        android:textSize="20sp"
+        android:text="Tu nivel actual es:"
+        android:layout_marginTop="10dp"
+        android:textColor = "?android:textColorPrimary"
+
+        >
+
+    </TextView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_margin="20dp"
+            android:text="Sin experiencia: Este nivel estará estandarizado de tal forma que los usuarios necesitan utensilios de cocina indispensables, con poca o nula experiencia y  poca gestión de tiempo. (uso de estufa exclusivo)."
+            android:layout_marginTop="10dp"
+            android:textColor = "?android:textColorPrimary"
+            >
+
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_margin="20dp"
+            android:text="Principiante: Este nivel estará estandarizado de tal forma que los usuarios necesiten un set de utensilios de cocina (básico) y un juego de ollas y sartenes y cucharas de cocina (al menos 2) además de empezar con la opción de tiempos (mínimos) dentro de cada paso de la receta. (uso de estufa, microondas y licuadora exclusivo)."
+            android:layout_marginTop="10dp"
+            android:textColor = "?android:textColorPrimary"
+            >
+
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_margin="20dp"
+            android:text="Con experiencia: Este nivel estará estandarizado de tal forma que los usuarios necesitan un set de cocina (básico) y juegos de ollas y sartenes básicos, además la opción de tiempos ya será con una mayor diferencia en rapidez. (uso de estufa y horno, microondas, y licuadora exclusiva)."
+            android:layout_marginTop="10dp"
+            android:textColor = "?android:textColorPrimary"
+            >
+
+        </TextView>
+
+    </LinearLayout>
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/subir"
+        android:text="Subir de nivel"
+        android:layout_marginBottom="10dp"
+        >
+
+    </com.google.android.material.button.MaterialButton>
+</LinearLayout>
+
+</ScrollView>
