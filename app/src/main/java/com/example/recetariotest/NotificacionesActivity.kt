@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -47,6 +48,7 @@ class NotificacionesActivity : AppCompatActivity() {
                         val jsonObj = jarray.getJSONObject(nums);
                         val tipo = jsonObj.getInt("tipo");
                         val visto = jsonObj.getInt("seen");
+                        val id_comodin = jsonObj.getInt("id_comodin");
                         val view: View = layoutInflater.inflate(R.layout.notificacion_template, null)
                         val card = view.findViewById<CardView>(R.id.card);
                         val txt = view.findViewById<TextView>(R.id.txt)
@@ -83,6 +85,73 @@ class NotificacionesActivity : AppCompatActivity() {
 
                         binding.container.addView(view)
 
+                        card.setOnClickListener {
+                            //Dialog
+                            SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("¿Quieres usar este comodin?" )
+                                .setContentText("Este comodin dejara de estar disponible al usarlo.")
+                                .setConfirmText("Sí.")
+                                .setCancelText("Cancelar")
+                                .showCancelButton(true)
+                                .setCancelClickListener { sDialog -> sDialog.cancel();
+                                }
+                                .setConfirmClickListener { sDialog ->
+
+                                    binding.container.removeView(view)
+                                    //Query
+                                    QueryUseComodin(id_comodin, tipo);
+
+                                    when (tipo) {
+                                        1 -> {
+
+                                            sDialog
+                                                .setTitleText("Listo.")
+                                                .setContentText("Tu comodin ha sido usado. Se ha agregado una unidad a tu contador de recetaas hechas.")
+                                                .setConfirmText("OK")
+                                                .showCancelButton(false)
+                                                .setConfirmClickListener(null)
+                                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                                        }
+                                        2 -> {
+
+                                            sDialog
+                                                .setTitleText("Listo.")
+                                                .setContentText("Tu comodin ha sido usado. Puedes ver tu receta de nivel superior en el inicio.")
+                                                .setConfirmText("OK")
+                                                .showCancelButton(false)
+                                                .setConfirmClickListener(null)
+                                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                                        }
+                                        3 -> {
+
+                                            sDialog
+                                                .setTitleText("Listo.")
+                                                .setContentText("Tu comodin ha sido usado. No bajaras de nivel al terminar el mes.")
+                                                .setConfirmText("OK")
+                                                .showCancelButton(false)
+                                                .setConfirmClickListener(null)
+                                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                                        }
+                                        4 -> {
+
+                                            sDialog
+                                                .setTitleText("Listo.")
+                                                .setContentText("Tu comodin ha sido usado. Podras ver el contenido en el apartado Aprender skills.")
+                                                .setConfirmText("OK")
+                                                .showCancelButton(false)
+                                                .setConfirmClickListener(null)
+                                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                                        }
+                                    }
+
+
+
+                                }
+                                .show()
+
+                        }
+
+
 
                     }
 
@@ -99,6 +168,39 @@ class NotificacionesActivity : AppCompatActivity() {
 
 
 
+    }
+
+    fun QueryUseComodin(comodin: Int, tipo: Int)
+    {
+        sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        var recetasHechas = sharedPreferences.getInt("recipes_done", 0)
+
+        // Instantiate the RequestQueue.
+        val queue = Volley.newRequestQueue(this)
+
+        val url = "https://apitest-production-6abd.up.railway.app/comodin/UseComodin/"+ comodin
+
+        // Request a string response from the provided URL.
+        val stringRequest = StringRequest(
+            Request.Method.GET, url,
+            { response ->
+                // RESPONSE.
+
+
+                if (tipo== 1 && recetasHechas < 5)
+                {
+                    editor.putInt("recipes_done", recetasHechas+1 );
+                    editor.commit()
+
+                }
+
+
+            },
+            {  })
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest)
     }
 
     override fun onBackPressed() {
