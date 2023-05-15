@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RecetarioTest">
         <activity
+            android:name=".SkillsActivity"
+            android:exported="false" />
+        <activity
             android:name=".SiguienteNivelActivity"
             android:exported="false" />
         <activity

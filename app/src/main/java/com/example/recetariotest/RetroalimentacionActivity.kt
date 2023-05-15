@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import cn.pedant.SweetAlert.SweetAlertDialog
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -75,6 +74,9 @@ class RetroalimentacionActivity : AppCompatActivity() {
         //Se hace el registro
         if (anticipacion >=80)
         {
+            //Se hace el historial lmao
+            Agregarhistorial(JsonStepsArray.getJSONObject(0).getInt("id_receta"), userTotal/60000);
+
 
             //Se actualiza la informacion del usuario
             actualizarUserData(JsonStepsArray.getJSONObject(0).getInt("id_receta"))
@@ -82,7 +84,7 @@ class RetroalimentacionActivity : AppCompatActivity() {
             //Comodin receta hecha, Hecho en el tiempo correcto TIPO 1
             if (anticipacion < 120 )
             {
-                Toast.makeText(this@RetroalimentacionActivity, "Comodin 1 ", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@RetroalimentacionActivity, "Comodin 1 ", Toast.LENGTH_SHORT).show()
                 CreateComodin(JsonStepsArray.getJSONObject(0).getInt("id_receta"), 1)
 
             }
@@ -90,7 +92,7 @@ class RetroalimentacionActivity : AppCompatActivity() {
             //Comodin receta superior 20 % de ventaja TIPO 2
             if (anticipacion < 85)
             {
-                Toast.makeText(this@RetroalimentacionActivity, "Comodin 2 ", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@RetroalimentacionActivity, "Comodin 2 ", Toast.LENGTH_SHORT).show()
                 CreateComodin(JsonStepsArray.getJSONObject(0).getInt("id_receta"), 2)
 
             }
@@ -98,7 +100,7 @@ class RetroalimentacionActivity : AppCompatActivity() {
             //Comodin no bajar de nivel, 15% de ventaja TIPO 3
             if (anticipacion < 100 && anticipacion >=85)
             {
-                Toast.makeText(this@RetroalimentacionActivity, "Comodin 3 ", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@RetroalimentacionActivity, "Comodin 3 ", Toast.LENGTH_SHORT).show()
                 CreateComodin(JsonStepsArray.getJSONObject(0).getInt("id_receta"), 3)
 
             }
@@ -178,6 +180,29 @@ class RetroalimentacionActivity : AppCompatActivity() {
             { response ->
                 // RESPONSE.
                 //Toast.makeText(this@RetroalimentacionActivity, response.toString(), Toast.LENGTH_SHORT) .show()
+
+            },
+            {  })
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest)
+    }
+
+    fun Agregarhistorial(receta: Int, tiempo: Long)
+    {
+        //Session
+        sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        var iduser = sharedPreferences.getString("id_user", null)!!
+        // Instantiate the RequestQueue.
+        val queue = Volley.newRequestQueue(this)
+        val url = "https://apitest-production-6abd.up.railway.app/user/addHistorial/"+ iduser+"/"+receta+"/"+tiempo
+
+        // Request a string response from the provided URL.
+        val stringRequest = StringRequest(
+            Request.Method.GET, url,
+            { response ->
+                // RESPONSE.
+                //Toast.makeText(this@RetroalimentacionActivity, response.toString(), Toast.LENGTH_SHORT).show()
 
             },
             {  })

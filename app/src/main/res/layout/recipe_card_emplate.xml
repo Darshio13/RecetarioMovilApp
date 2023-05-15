@@ -15,6 +15,7 @@
     <com.google.android.material.card.MaterialCardView
          android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/actualcard"
         android:layout_margin="8dp"
         android:background="@color/cardview_light_background"
         >

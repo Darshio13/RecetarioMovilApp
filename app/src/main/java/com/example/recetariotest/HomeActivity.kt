@@ -3,6 +3,7 @@ package com.example.recetariotest
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,6 +13,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
@@ -54,7 +56,6 @@ class HomeActivity : AppCompatActivity() {
 
         //Query
         var url = ""
-
         val queue = Volley.newRequestQueue(this)
         if (nivelUser == 1 )
         {
@@ -78,7 +79,7 @@ class HomeActivity : AppCompatActivity() {
                     //Toast.makeText(this@MainActivity, "Las credenciales no coinciden", Toast.LENGTH_SHORT).show()
                     SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
                         .setTitleText("Error")
-                        .setContentText("Error. No se pudo cargar el contenido").show()
+                        .setContentText("Error. Parece que no hay recetas de este nivel").show()
 
 
                 }
@@ -97,7 +98,7 @@ class HomeActivity : AppCompatActivity() {
                         val ImageObject = ImageArray.getJSONObject(0);
                         val urlImg = ImageObject.getString("nombre_archivo")
                         val idReciope = jsonObj.getInt("id_receta")
-                        insertRecipe(nombre, urlImg, idReciope)
+                        insertRecipe(nombre, urlImg, idReciope, false)
                     }
 
 
@@ -112,6 +113,10 @@ class HomeActivity : AppCompatActivity() {
         queue.add(stringRequest)
 
 
+        InsertNextLevelRecipes();
+
+
+
 
 
 
@@ -120,13 +125,67 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
-    private fun insertRecipe (title:String, url:String, id:Int)
+
+    private fun InsertNextLevelRecipes ()
+    {
+        sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        var idUser = sharedPreferences.getString("id_user", null)!!
+        var url = ""
+        val queue = Volley.newRequestQueue(this)
+
+        url = "https://apitest-production-6abd.up.railway.app/comodin/GetRecipeForComodin/"+idUser
+
+
+        // Request a string response from the provided URL.
+        val stringRequest = StringRequest(
+            Request.Method.GET, url,
+            { response ->
+                // RESPONSE.
+                //No hay conexion no se encntro el API
+                if (response.toString().length <30)
+                {
+
+
+
+                }
+                else {
+
+                    //Parsear
+                    //Se obtiene el array de recetas
+                    val jarray = JSONArray(response.toString());
+                    //Insertar recetas
+                    for (nums in 0..jarray.length()-1) {
+
+                        //Se obtienen los atributos por el indice de jsonObj
+                        val jsonObj = jarray.getJSONObject(nums);
+                        val nombre = jsonObj.getString("titulo");
+                        val ImageArray = jsonObj.getJSONArray("Imagenes")
+                        val ImageObject = ImageArray.getJSONObject(0);
+                        val urlImg = ImageObject.getString("nombre_archivo")
+                        val idReciope = jsonObj.getInt("id_receta")
+                        insertRecipe(nombre, urlImg, idReciope, true)
+                    }
+
+
+                }
+            },
+            {
+
+            })
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest)
+
+    }
+
+    private fun insertRecipe (title:String, url:String, id:Int, experto: Boolean)
     {
         val view: View = layoutInflater.inflate(R.layout.recipe_card_emplate, null)
 
         val img = view.findViewById<ImageView>(R.id.img)
         val txt = view.findViewById<TextView>(R.id.txt)
         val card = view.findViewById<LinearLayout>(R.id.card)
+        val actualcard= view.findViewById<CardView>(R.id.actualcard);
 
         card.setOnClickListener{
             //Toast.makeText(this@HomeActivity, "Se toco la receta "+ id.toString(), Toast.LENGTH_SHORT) .show()
@@ -137,7 +196,19 @@ class HomeActivity : AppCompatActivity() {
         }
         txt.text = title
         Picasso.get().load(url).into(img);
-        binding.container.addView(view)
+        if (experto == true)
+        {
+            binding.container.addView(view,0)
+           actualcard.setCardBackgroundColor(Color.parseColor("#FED766"))
+
+
+
+        }
+        else
+        {
+            binding.container.addView(view)
+
+        }
 
     }
 
@@ -207,19 +278,49 @@ class HomeActivity : AppCompatActivity() {
             }
 
             R.id.ApSkills ->
-                return true;
-
-            R.id.Snivel ->{
-                val intent = Intent(this, SubirNivel::class.java);
+            {
+                val intent = Intent(this, SkillsActivity::class.java);
                 startActivity(intent);
                 finish();
                 return true;
             }
 
+            R.id.Snivel ->{
+                sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE)
+                var nivelUser = sharedPreferences.getInt("level_user", 0);
+                if (nivelUser>2)
+                {
+                    SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Espera")
+                        .setContentText("Has alcanzado el nivel maximo, nada que ver aqui.").show()
+
+                }
+                else {
+                    val intent = Intent(this, SubirNivel::class.java);
+                    startActivity(intent);
+                    finish();
+                }
+                return true;
+            }
+
             R.id.Nextnivel ->{
+                sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE)
+                var nivelUser = sharedPreferences.getInt("level_user", 0);
+                if (nivelUser>2)
+                {
+                    SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Espera")
+                        .setContentText("Has alcanzado el nivel maximo, nada que ver aqui.").show()
+
+                }
+                else
+                {
+
                 val intent = Intent(this, SiguienteNivelActivity::class.java);
                 startActivity(intent);
                 finish();
+                }
+
                 return true;
             }
 

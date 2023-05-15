@@ -116,7 +116,7 @@ class NotificacionesActivity : AppCompatActivity() {
 
                                             sDialog
                                                 .setTitleText("Listo.")
-                                                .setContentText("Tu comodin ha sido usado. Puedes ver tu receta de nivel superior en el inicio.")
+                                                .setContentText("Tu comodin ha sido usado. Puedes ver tu receta de nivel superior en el inicio. Si eres el nivel maximo, te llegara una receta por correo por uno de nuestros chefs expertos.")
                                                 .setConfirmText("OK")
                                                 .showCancelButton(false)
                                                 .setConfirmClickListener(null)
