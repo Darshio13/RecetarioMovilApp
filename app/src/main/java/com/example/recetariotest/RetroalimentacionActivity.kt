@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -74,6 +75,7 @@ class RetroalimentacionActivity : AppCompatActivity() {
         //Se hace el registro
         if (anticipacion >=80)
         {
+
             //Se hace el historial lmao
             Agregarhistorial(JsonStepsArray.getJSONObject(0).getInt("id_receta"), userTotal/60000);
 
@@ -108,11 +110,18 @@ class RetroalimentacionActivity : AppCompatActivity() {
             //Comodin aprende skills TIPO 4
             CreateComodin(JsonStepsArray.getJSONObject(0).getInt("id_receta"), 4)
 
+            SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("Felicidades")
+                .setContentText("Has completado la receta en un tiempo valido. Se sumara a tu contador de recetas hechas.").show()
+
+
 
         }
         else {
 
-            //Toast.makeText(this@RetroalimentacionActivity, "No ganaste nada hiciste trampa", Toast.LENGTH_SHORT).show()
+            SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("La receta hecha no es valida.")
+                .setContentText("Has completado la receta en un tiempo invalido. No se te sumara a tu contador de recetas hechas.").show()
 
         }
         //Toast.makeText(this@RetroalimentacionActivity, anticipacion.toString(), Toast.LENGTH_SHORT).show()
@@ -192,6 +201,16 @@ class RetroalimentacionActivity : AppCompatActivity() {
     {
         //Session
         sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        //Actualizar contador de recetas
+        var recetasHechas = sharedPreferences.getInt("recipes_done", 0)
+        if (recetasHechas < 5)
+        {
+            editor.putInt("recipes_done", recetasHechas+1 );
+            editor.commit()
+        }
+
+
         var iduser = sharedPreferences.getString("id_user", null)!!
         // Instantiate the RequestQueue.
         val queue = Volley.newRequestQueue(this)
