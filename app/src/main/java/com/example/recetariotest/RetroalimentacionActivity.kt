@@ -75,9 +75,10 @@ class RetroalimentacionActivity : AppCompatActivity() {
         //Se hace el registro
         if (anticipacion >=80)
         {
-
+            //Poner historial
+            ObtenerHistorial(JsonStepsArray.getJSONObject(0).getInt("id_receta"))
             //Se hace el historial lmao
-            Agregarhistorial(JsonStepsArray.getJSONObject(0).getInt("id_receta"), userTotal/60000);
+            Agregarhistorial(JsonStepsArray.getJSONObject(0).getInt("id_receta"), userTotal);
 
 
             //Se actualiza la informacion del usuario
@@ -124,6 +125,8 @@ class RetroalimentacionActivity : AppCompatActivity() {
                 .setContentText("Has completado la receta en un tiempo invalido. No se te sumara a tu contador de recetas hechas.").show()
 
         }
+
+
         //Toast.makeText(this@RetroalimentacionActivity, anticipacion.toString(), Toast.LENGTH_SHORT).show()
 
 
@@ -189,6 +192,59 @@ class RetroalimentacionActivity : AppCompatActivity() {
             { response ->
                 // RESPONSE.
                 //Toast.makeText(this@RetroalimentacionActivity, response.toString(), Toast.LENGTH_SHORT) .show()
+
+            },
+            {  })
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest)
+    }
+
+
+    fun ObtenerHistorial(receta: Int)
+    {
+        //Session
+        sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE)
+
+        var iduser = sharedPreferences.getString("id_user", null)!!
+        // Instantiate the RequestQueue.
+        val queue = Volley.newRequestQueue(this)
+        val url = "https://apitest-production-6abd.up.railway.app/user/GetHistorial/"+ iduser+"/"+receta
+
+        // Request a string response from the provided URL.
+        val stringRequest = StringRequest(
+            Request.Method.GET, url,
+            { response ->
+
+                if (response.toString().length >10)
+                {
+                    val viewC: View = layoutInflater.inflate(R.layout.ingredients_template, null)
+                    viewC.findViewById<TextView>(R.id.ingredient).text = "Dia:"
+                    viewC.findViewById<TextView>(R.id.number).text ="tiempo";
+
+                    val jarray = JSONArray(response.toString());
+                    var record = 0;
+                    for (nums in 0..jarray.length()-1) {
+                        val jsonObj = jarray.getJSONObject(nums);
+                        val tiempo = formatMilliseconds(jsonObj.getInt("tiempo").toLong())
+                        val dia = nums +1;
+                        val view: View = layoutInflater.inflate(R.layout.ingredients_template, null)
+                        record = record + jsonObj.getInt("tiempo");
+                        val userTotalInsert = view.findViewById<TextView>(R.id.ingredient);
+                        userTotalInsert.text = dia.toString();
+                        val recipeTotal =  view.findViewById<TextView>(R.id.number);
+                        recipeTotal.text =  tiempo
+                        binding.historialtxt.text = "Registros semanal:"
+                        binding.historial.addView(view)
+
+                    }
+                    var promedio = record / jarray.length();
+                    binding.promediotxt.text = "Promedio de preparacion semanal:" + formatMilliseconds(promedio.toLong());
+
+                }
+
+                // RESPONSE.
+                //Toast.makeText(this@RetroalimentacionActivity, response.toString(), Toast.LENGTH_SHORT).show()
 
             },
             {  })
