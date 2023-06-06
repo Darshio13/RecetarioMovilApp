@@ -42,7 +42,7 @@ class SubirNivel : AppCompatActivity() {
 
             // Instantiate the RequestQueue.
             val queue = Volley.newRequestQueue(this)
-            val url = "https://apitest-production-6abd.up.railway.app/user/LevelUpUser/"+ iduser
+            val url = "https://apitest-production-3e6f.up.railway.app/user/LevelUpUser/"+ iduser
 
             // Request a string response from the provided URL.
             val stringRequest = StringRequest(

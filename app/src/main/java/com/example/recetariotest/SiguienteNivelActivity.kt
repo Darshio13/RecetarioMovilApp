@@ -36,7 +36,7 @@ class SiguienteNivelActivity : AppCompatActivity() {
         var url = ""
         val queue = Volley.newRequestQueue(this)
 
-        url = "https://apitest-production-6abd.up.railway.app/receta/Siguiente/"+nivelUser
+        url = "https://apitest-production-3e6f.up.railway.app/receta/Siguiente/"+nivelUser
 
 
         // Request a string response from the provided URL.

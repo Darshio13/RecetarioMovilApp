@@ -159,7 +159,7 @@ class RetroalimentacionActivity : AppCompatActivity() {
 
         // Instantiate the RequestQueue.
         val queue = Volley.newRequestQueue(this)
-        val url = "https://apitest-production-6abd.up.railway.app/user/UpdateUserAppData/"+ iduser+"/"+receta
+        val url = "https://apitest-production-3e6f.up.railway.app/user/UpdateUserAppData/"+ iduser+"/"+receta
 
         // Request a string response from the provided URL.
         val stringRequest = StringRequest(
@@ -184,7 +184,7 @@ class RetroalimentacionActivity : AppCompatActivity() {
 
         // Instantiate the RequestQueue.
         val queue = Volley.newRequestQueue(this)
-        val url = "https://apitest-production-6abd.up.railway.app/comodin/NuevoComodin/"+ iduser+"/"+receta+"/"+tipo
+        val url = "https://apitest-production-3e6f.up.railway.app/comodin/NuevoComodin/"+ iduser+"/"+receta+"/"+tipo
 
         // Request a string response from the provided URL.
         val stringRequest = StringRequest(
@@ -209,7 +209,7 @@ class RetroalimentacionActivity : AppCompatActivity() {
         var iduser = sharedPreferences.getString("id_user", null)!!
         // Instantiate the RequestQueue.
         val queue = Volley.newRequestQueue(this)
-        val url = "https://apitest-production-6abd.up.railway.app/user/GetHistorial/"+ iduser+"/"+receta
+        val url = "https://apitest-production-3e6f.up.railway.app/user/GetHistorial/"+ iduser+"/"+receta
 
         // Request a string response from the provided URL.
         val stringRequest = StringRequest(
@@ -270,7 +270,7 @@ class RetroalimentacionActivity : AppCompatActivity() {
         var iduser = sharedPreferences.getString("id_user", null)!!
         // Instantiate the RequestQueue.
         val queue = Volley.newRequestQueue(this)
-        val url = "https://apitest-production-6abd.up.railway.app/user/addHistorial/"+ iduser+"/"+receta+"/"+tiempo
+        val url = "https://apitest-production-3e6f.up.railway.app/user/addHistorial/"+ iduser+"/"+receta+"/"+tiempo
 
         // Request a string response from the provided URL.
         val stringRequest = StringRequest(

@@ -59,12 +59,12 @@ class HomeActivity : AppCompatActivity() {
         val queue = Volley.newRequestQueue(this)
         if (nivelUser == 1 )
         {
-            url = "https://apitest-production-6abd.up.railway.app/receta/NivelUno"
+            url = "https://apitest-production-3e6f.up.railway.app/receta/NivelUno"
 
         }
         else
         {
-            url = "https://apitest-production-6abd.up.railway.app/receta/Nivel/"+nivelUser
+            url = "https://apitest-production-3e6f.up.railway.app/receta/Nivel/"+nivelUser
 
         }
 
@@ -133,7 +133,7 @@ class HomeActivity : AppCompatActivity() {
         var url = ""
         val queue = Volley.newRequestQueue(this)
 
-        url = "https://apitest-production-6abd.up.railway.app/comodin/GetRecipeForComodin/"+idUser
+        url = "https://apitest-production-3e6f.up.railway.app/comodin/GetRecipeForComodin/"+idUser
 
 
         // Request a string response from the provided URL.
@@ -234,7 +234,7 @@ class HomeActivity : AppCompatActivity() {
 
         // Instantiate the RequestQueue.
         val queue = Volley.newRequestQueue(this)
-        val url = "https://apitest-production-6abd.up.railway.app/comodin/GetComodinNotis/"+iduser
+        val url = "https://apitest-production-3e6f.up.railway.app/comodin/GetComodinNotis/"+iduser
 
         // Request a string response from the provided URL.
         val stringRequest = StringRequest(

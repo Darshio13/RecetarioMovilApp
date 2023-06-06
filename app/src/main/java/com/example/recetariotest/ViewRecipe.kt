@@ -30,7 +30,7 @@ class ViewRecipe : AppCompatActivity() {
 
         val queue = Volley.newRequestQueue(this)
         val IdRecipe = intent.getStringExtra("ID_RECIPE")
-        val url = "https://apitest-production-6abd.up.railway.app/receta/RecetaEspecifica/" + IdRecipe
+        val url = "https://apitest-production-3e6f.up.railway.app/receta/RecetaEspecifica/" + IdRecipe
 
         // Request a string response from the provided URL.
         val stringRequest = StringRequest(
